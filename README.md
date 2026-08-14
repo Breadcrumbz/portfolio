@@ -1,35 +1,30 @@
-# Personal Portfolio
-A personal portfolio site showcasing product strategy, transformation, process design, and AI workflow work.
+# Astro Starter Kit: Portfolio
 
-## Status
+```sh
+npm create astro@latest -- --template portfolio
+```
 
-In development.
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/portfolio)
+[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/portfolio)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/portfolio/devcontainer.json)
 
-## Planned stack
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-- Astro
-- TypeScript
-- CSS / Tailwind CSS
-- Markdown or MDX content collections
-- GitHub Pages
-- GitHub Actions
+![portfolio](https://user-images.githubusercontent.com/357379/210779178-a98f0fb7-6b1a-4068-894c-8e1403e26654.jpg)
 
-## Site sections
+## 🧞 Commands
 
-- Home
-- Work and case studies
-- About
-- Insights
-- Contact
+All commands are run from the root of the project, from a terminal:
 
-## Local development
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-Setup instructions will be added after the Astro template is installed.
+## 👀 Want to learn more?
 
-## Deployment
-
-The site will deploy to GitHub Pages through GitHub Actions when changes are pushed to the `main` branch.
-
-## Content and confidentiality
-
-All public case studies are written as NDA-safe summaries. Do not commit confidential client information, proprietary artefacts, personal contact details beyond intended public channels, credentials, API keys, or unpublished work.
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
