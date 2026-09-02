@@ -1,0 +1,52 @@
+---
+interface Props {
+  title?: string;
+  outcome: string;
+  contribution?: string;
+}
+
+const {
+  title = "Outcome",
+  outcome,
+  contribution,
+} = Astro.props;
+---
+
+<aside class="outcome-panel" aria-labelledby="outcome-title">
+  <p class="eyebrow">Impact</p>
+  <h2 id="outcome-title">{title}</h2>
+  <p class="outcome">{outcome}</p>
+
+  {contribution && (
+    <p class="contribution">
+      <strong>My contribution:</strong> {contribution}
+    </p>
+  )}
+</aside>
+
+<style>
+  .outcome-panel {
+    margin-block: var(--space-12);
+    padding: var(--space-8);
+    border-left: 0.35rem solid var(--colour-accent);
+    background: var(--colour-accent-soft);
+  }
+
+  h2 {
+    margin: var(--space-2) 0 var(--space-4);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    line-height: 1.2;
+  }
+
+  .outcome {
+    max-width: 52rem;
+    margin: 0;
+    font-size: 1.125rem;
+    line-height: 1.65;
+  }
+
+  .contribution {
+    margin: var(--space-6) 0 0;
+    color: var(--colour-muted);
+  }
+</style>

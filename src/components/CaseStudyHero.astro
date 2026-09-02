@@ -1,0 +1,226 @@
+---
+import { withBase } from '../lib/withBase';
+import Pill from './Pill.astro';
+
+interface Props {
+  title: string;
+  summary: string;
+  role: string;
+  clientType: string;
+  sector: string;
+  year: number;
+  tags: string[];
+  outcome: string;
+  confidentiality?: string;
+  heroImage?: string;
+}
+
+const {
+  title,
+  summary,
+  role,
+  clientType,
+  sector,
+  year,
+  tags,
+  outcome,
+  confidentiality = "NDA safe case study",
+  heroImage,
+} = Astro.props;
+
+const heroAlt = `Abstract visual representing ${title}`;
+const workHref = withBase('/work/');
+const heroSrc = heroImage ? withBase(heroImage) : undefined;
+---
+
+<header class="case-study-hero">
+  <div class="container">
+    <a class="back-link" href={workHref}>
+      <span aria-hidden="true">←</span>
+    Work
+    </a>
+
+    <div class="hero-intro">
+      <p class="eyebrow">Case study</p>
+
+      <h1>{title}</h1>
+
+      <p class="summary">{summary}</p>
+    </div>
+
+    <dl class="project-meta">
+      <div>
+        <dt>Organisation</dt>
+        <dd>{clientType}</dd>
+      </div>
+
+      <div>
+        <dt>Sector</dt>
+        <dd>{sector}</dd>
+      </div>
+
+      <div>
+        <dt>Role</dt>
+        <dd>{role}</dd>
+      </div>
+
+      <div>
+        <dt>Year</dt>
+        <dd>{year}</dd>
+      </div>
+    </dl>
+
+    <div class="tag-group" aria-label="Project disciplines">
+      {tags.map((tag) => <Pill>{tag}</Pill>)}
+    </div>
+
+    {heroSrc ? (
+      <figure class="hero-visual">
+        <img src={heroSrc} alt={heroAlt} width="1200" height="800" />
+      </figure>
+    ) : null}
+
+    <aside class="outcome-summary" aria-labelledby="outcome-summary-title">
+      <div>
+        <p class="eyebrow">Outcome</p>
+        <h2 id="outcome-summary-title">What changed</h2>
+      </div>
+
+      <p>{outcome}</p>
+    </aside>
+
+    <p class="confidentiality-note">
+      <span aria-hidden="true">●</span>
+      {confidentiality}
+    </p>
+  </div>
+</header>
+
+<style>
+  .case-study-hero {
+    padding-block: var(--space-8) var(--space-16);
+    background: var(--colour-surface);
+    border-bottom: 1px solid var(--colour-border);
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-12);
+    color: var(--colour-muted);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .back-link:hover,
+  .back-link:focus-visible {
+    color: var(--colour-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .hero-intro {
+    max-width: 46rem;
+  }
+
+  h1 {
+    max-width: 16ch;
+    margin: var(--space-2) 0 var(--space-6);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1.02;
+    letter-spacing: -0.05em;
+  }
+
+  .summary {
+    max-width: 42rem;
+    margin: 0;
+    color: var(--colour-muted);
+    font-size: clamp(1.125rem, 2vw, 1.35rem);
+    line-height: 1.6;
+  }
+
+  .project-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6) var(--space-8);
+    margin: var(--space-8) 0;
+    width: 100%;
+  }
+
+  dt {
+    margin-bottom: var(--space-1);
+    color: var(--colour-muted);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 650;
+  }
+
+  .tag-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: var(--space-6);
+  }
+
+  .tag-group :global(.pill) {
+    font-size: 0.8rem;
+  }
+
+  .hero-visual {
+    margin: var(--space-8) 0 0;
+    width: 100%;
+  }
+
+  .hero-visual img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 36rem;
+    object-fit: cover;
+    border: 1px solid var(--colour-border);
+  }
+
+  .outcome-summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: var(--space-8);
+    margin-top: var(--space-12);
+    padding: var(--space-8);
+    background: var(--colour-paper);
+    border: 1px solid var(--colour-border);
+  }
+
+  .outcome-summary h2 {
+    margin: var(--space-2) 0 0;
+    font-size: 1.5rem;
+  }
+
+  .confidentiality-note {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+    color: var(--colour-muted);
+    font-size: 0.9rem;
+  }
+
+  @media (min-width: 42.01rem) {
+    .project-meta {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 52rem) {
+    .outcome-summary {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,63 +1,109 @@
 ---
-import ContactCTA from '../components/ContactCTA.astro';
 import Hero from '../components/Hero.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/withBase';
 ---
 
-<BaseLayout title="About | Jeanine White" description="About Jeanine White Lorem Ipsum">
+<BaseLayout
+	title="About"
+	description="Product, transformation, customer experience and AI workflow work."
+>
 	<div class="stack gap-20">
 		<main class="wrapper about">
 			<Hero
 				title="About"
-				tagline="Thanks for stopping by. Read below to learn more about myself and my background."
+				tagline="I help complex organisations turn ambiguity into aligned, practical change."
 			>
-				<img
-					width="1553"
-					height="873"
-					src="/assets/at-work.jpg"
-					alt="Jeanine White at work with a colleague"
-				/>
+				<p class="intro">
+					I work across product, transformation, service design and AI enabled workflows. My focus
+					is on the difficult space between strategic intent and delivery reality: where customer
+					needs, operating processes, technology constraints and stakeholder priorities need to
+					come together.
+				</p>
 			</Hero>
 
 			<section>
-				<h2 class="section-title">Background</h2>
+				<h2 class="section-title">What I bring</h2>
 				<div class="content">
 					<p>
-						Lorem ipsum dolor sit amet, <a href="https://astro.build/">Astro</a> makes people happy. Sed
-						do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin nibh nisl condimentum
-						id venenatis a condimentum vitae. Dapibus ultrices in iaculis nunc. Arcu odio ut sem nulla
-						pharetra diam sit amet. Diam quis enim lobortis scelerisque fermentum dui faucibus in ornare.
+						I bring a systems oriented approach to product and transformation work. Rather than
+						treating a product, process or service issue in isolation, I look at the surrounding
+						decisions, dependencies and operating conditions that determine whether a change will
+						succeed.
 					</p>
 					<p>
-						Arcu dui vivamus arcu felis bibendum ut tristique et egestas. Eget gravida cum sociis
-						natoque penatibus. Cras fermentum odio eu feugiat pretium nibh. Proin nibh nisl
-						condimentum id venenatis. Porta nibh venenatis cras sed felis eget velit. Id diam vel
-						quam elementum pulvinar etiam non.
-					</p>
-					<p>
-						Ultrices tincidunt arcu non sodales neque sodales ut. Sed enim ut sem viverra aliquet
-						eget sit amet. Lacus luctus accumsan tortor posuere ac ut consequat semper viverra.
-						Viverra accumsan in nisl nisi scelerisque eu ultrices. In massa tempor nec feugiat nisl
-						pretium fusce.
+						My work often involves making a complex situation easier to understand: clarifying the
+						current state, identifying the decisions that matter, aligning people around a shared
+						direction and translating that direction into a credible path to delivery.
 					</p>
 				</div>
 			</section>
-			<section>
-				<h2 class="section-title">Education</h2>
-				<div class="content">
-					<p>Corporis voluptates tenetur laudantium.</p>
-				</div>
-			</section>
-			<section>
-				<h2 class="section-title">Skills</h2>
-				<div class="content">
-					<p>officia unde omnis</p>
-				</div>
-			</section>
-		</main>
 
-		<ContactCTA />
+			<section>
+				<h2 class="section-title">How I work</h2>
+				<div class="content">
+					<ul>
+						<li><strong>Understand the system.</strong> I use research, stakeholder conversations,
+						workflow analysis and process mapping to establish a shared view of the problem.
+					</li>
+					<li>
+						<strong>Create alignment.</strong> I help teams test assumptions, surface trade-offs,
+						prioritise opportunities and make decisions that can hold across functions.
+					</li>
+					<li>
+						<strong>Design for implementation.</strong> I turn the agreed direction into a practical
+						product, process, service or workflow change that considers governance, technology and
+						delivery constraints.</li>
+					</ul>
+				</div>
+			</section>
+
+			<section>
+				<h2 class="section-title">Experience areas</h2>
+				<div class="content">
+				  <ul>
+					<li>Product strategy, discovery and requirements definition</li>
+					<li>Customer, service and operational process improvement</li>
+					<li>Enterprise transformation and operating model design</li>
+					<li>Sales enablement and channel operations for telcos and utilities</li>
+					<li>Stakeholder facilitation, prioritisation and delivery planning</li>
+					<li>AI workflow design and practical adoption opportunities</li>
+					 </ul>
+				</div>
+			</section>
+
+			<section>
+				<h2 class="section-title">Working in complex environments</h2>
+				<div class="content">
+					<p>
+						I am comfortable working where outcomes depend on multiple teams, legacy systems,
+						competing priorities and incomplete information. I value structured thinking, candid
+						collaboration and enough detail to make decisions actionable, without creating
+						unnecessary process.
+					</p>
+					<p>
+						Selected work in this portfolio is presented in NDA-safe form. It focuses on the
+						problem, approach, contribution and outcome, while protecting confidential client and
+						commercial information.
+					</p>
+				</div>
+			</section>
+
+		</main>
 	</div>
+
+	<section class="cta-section" aria-labelledby="cta-title">
+		<div class="container">
+			<h2 id="cta-title">Let’s connect</h2>
+			<p>
+				I am open to product, transformation, customer experience and AI workflow opportunities.
+				If you are working on a complex change initiative, I'd be happy to have a chat. 
+			</p>
+			<div class="actions">
+				<a class="button button-primary" href={withBase('/contact/')}>Get in touch</a>
+			</div>
+		</div>
+	</section>
 </BaseLayout>
 
 <style>
@@ -67,23 +113,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		gap: 3.5rem;
 	}
 
-	img {
-		margin-top: 1.5rem;
-		border-radius: 1.5rem;
-		box-shadow: var(--shadow-md);
-	}
-
-	section {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		color: var(--gray-200);
+	.intro {
+		max-width: 48rem;
+		margin: 0;
+		color: var(--colour-muted);
+		font-size: 1.125rem;
+		line-height: 1.65;
 	}
 
 	.section-title {
 		grid-column-start: 1;
 		font-size: var(--text-xl);
 		color: var(--gray-0);
+	}
+
+	.about section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		color: var(--gray-200);
 	}
 
 	.content {
@@ -111,9 +159,70 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			grid-column-start: 2;
 		}
 
-		section {
+		.about section {
 			display: contents;
 			font-size: var(--text-lg);
+		}
+	}
+
+	.cta-section {
+		padding-block: calc(var(--space-16) + 24px);
+		background: transparent;
+		color: var(--gray-0);
+	}
+
+	.cta-section h2 {
+		max-width: 42rem;
+		margin: var(--space-2) 0 var(--space-4);
+		font-size: clamp(2rem, 4vw, 3.25rem);
+		line-height: 1.1;
+		letter-spacing: -0.03em;
+		color: var(--gray-0);
+	}
+
+	.cta-section p:not(.eyebrow) {
+		max-width: 42rem;
+		margin: 0;
+		color: var(--gray-200);
+		font-size: 1.125rem;
+	}
+
+	.cta-section .eyebrow {
+		color: var(--gray-300);
+	}
+
+	.cta-section .actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
+		margin-top: var(--space-8);
+	}
+
+	.cta-section .button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 2.85rem;
+		padding: 0.7rem 1rem;
+		border: 1px solid transparent;
+		border-radius: var(--radius-sm);
+		font-weight: 750;
+		text-decoration: none;
+	}
+
+	.cta-section .button-primary {
+		background: var(--colour-accent);
+		color: var(--colour-paper);
+	}
+
+	.cta-section .button-primary:hover,
+	.cta-section .button-primary:focus-visible {
+		background: var(--colour-accent-strong, var(--accent-dark));
+	}
+
+	@media (max-width: 42rem) {
+		.cta-section {
+			padding-block: calc(var(--space-12) + 24px);
 		}
 	}
 </style>

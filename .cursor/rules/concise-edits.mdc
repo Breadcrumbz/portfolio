@@ -1,0 +1,11 @@
+---
+description: Keep replies terse and patch-sized; skip basic programming explanations
+alwaysApply: true
+---
+
+# Concise edits
+
+- Be extremely concise. Do not explain basic programming concepts.
+- Prefer diffs and surgical edits. Change only the lines, functions, or blocks that must change.
+- Do not rewrite an entire file unless explicitly asked, or the file is so broken that a full rewrite is the only reliable fix.
+- Skip recap of unchanged code. State what changed in one short sentence when needed.

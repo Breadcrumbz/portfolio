@@ -1,150 +1,165 @@
 ---
-import { type CollectionEntry, getCollection, render } from 'astro:content';
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/BaseLayout.astro";
+import CaseStudyHero from "../../components/CaseStudyHero.astro";
+import OutcomePanel from "../../components/OutcomePanel.astro";
+import ContactCTA from "../../components/ContactCTA.astro";
 
-import ContactCTA from '../../components/ContactCTA.astro';
-import Hero from '../../components/Hero.astro';
-import Icon from '../../components/Icon.astro';
-import Pill from '../../components/Pill.astro';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-
-interface Props {
-	entry: CollectionEntry<'work'>;
-}
-
-// This is a dynamic route that generates a page for every Markdown file in src/content/
-// Read more about dynamic routes and this `getStaticPaths` function in the Astro docs:
-// https://docs.astro.build/en/guides/routing/#dynamic-routes
 export async function getStaticPaths() {
-	const work = await getCollection('work');
-	return work.map((entry) => ({
-		params: { slug: entry.id },
-		props: { entry },
-	}));
+  const work = await getCollection("work");
+
+  return work
+    .filter((entry) => !entry.data.draft)
+    .map((entry) => ({
+      params: { slug: entry.id },
+      props: { entry },
+    }));
 }
 
 const { entry } = Astro.props;
+const { data } = entry;
 const { Content } = await render(entry);
 ---
 
-<BaseLayout title={entry.data.title} description={entry.data.description}>
-	<div class="stack gap-20">
-		<div class="stack gap-15">
-			<header>
-				<div class="wrapper stack gap-2">
-					<a class="back-link" href="/work/"><Icon icon="arrow-left" /> Work</a>
-					<Hero title={entry.data.title} align="start">
-						<div class="details">
-							<div class="tags">
-								{entry.data.tags.map((t) => <Pill>{t}</Pill>)}
-							</div>
-							<p class="description">{entry.data.description}</p>
-						</div>
-					</Hero>
-				</div>
-			</header>
-			<main class="wrapper">
-				<div class="stack gap-10 content">
-					{entry.data.img && <img src={entry.data.img} alt={entry.data.img_alt || ''} />}
-					<div class="content">
-						<Content />
-					</div>
-				</div>
-			</main>
-		</div>
-		<ContactCTA />
-	</div>
-</BaseLayout>
+<Layout title={data.title} description={data.summary}>
+  <CaseStudyHero
+    title={data.title}
+    summary={data.summary}
+    role={data.role}
+    clientType={data.clientType}
+    sector={data.sector}
+    year={data.year}
+    tags={data.tags}
+    outcome={data.outcome}
+    confidentiality={data.confidentiality}
+    heroImage={data.heroImage}
+  />
+
+  <article class="case-study">
+    <div class="container">
+      <div class="case-study-content">
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  <div class="container">
+    <OutcomePanel
+      outcome={data.outcome}
+      contribution={`Led the product and transformation approach for this ${data.sector.toLowerCase()} engagement.`}
+    />
+  </div>
+
+  <ContactCTA
+    title="Interested in the approach behind this work?"
+    intro="Get in touch if you would like to discuss the decisions, constraints and delivery approach in more detail."
+  />
+</Layout>
 
 <style>
-	header {
-		padding-bottom: 2.5rem;
-		border-bottom: 1px solid var(--gray-800);
-	}
+  .case-study {
+    padding-block: var(--space-16);
+  }
 
-	.back-link {
-		display: none;
-	}
+  .case-study-content {
+    width: 100%;
+    padding-inline-start: var(--space-8);
+    box-sizing: border-box;
+  }
 
-	.details {
-		display: flex;
-		flex-direction: column;
-		padding: 0.5rem;
-		gap: 1.5rem;
-		justify-content: space-between;
-		align-items: center;
-	}
+  .case-study-content :global(h2) {
+    margin: var(--space-12) 0 var(--space-4);
+    font-size: clamp(1.6rem, 3vw, 2.35rem);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
 
-	.tags {
-		display: flex;
-		gap: 0.5rem;
-	}
+  .case-study-content :global(h2:first-child) {
+    margin-top: 0;
+  }
 
-	.description {
-		font-size: var(--text-lg);
-		max-width: 54ch;
-	}
+  .case-study-content :global(h3) {
+    margin: var(--space-8) 0 var(--space-3);
+    font-size: 1.25rem;
+    line-height: 1.35;
+  }
 
-	.content {
-		max-width: 65ch;
-		margin-inline: auto;
-	}
+  .case-study-content :global(p),
+  .case-study-content :global(li) {
+    color: var(--colour-ink);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
 
-	.content > :global(* + *) {
-		margin-top: 1rem;
-	}
+  .case-study-content :global(p) {
+    margin-block: 0 var(--space-5);
+  }
 
-	.content :global(h1),
-	.content :global(h2),
-	.content :global(h3),
-	.content :global(h4),
-	.content :global(h5) {
-		margin: 1.5rem 0;
-	}
+  .case-study-content :global(ul),
+  .case-study-content :global(ol) {
+    margin: 0 0 var(--space-6);
+    padding-left: 1.35rem;
+  }
 
-	.content :global(img) {
-		border-radius: 1.5rem;
-		box-shadow: var(--shadow-sm);
-		background: var(--gradient-subtle);
-		border: 1px solid var(--gray-800);
-	}
+  .case-study-content :global(li + li) {
+    margin-top: var(--space-2);
+  }
 
-	.content :global(blockquote) {
-		font-size: var(--text-lg);
-		font-family: var(--font-brand);
-		font-weight: 600;
-		line-height: 1.1;
-		padding-inline-start: 1.5rem;
-		border-inline-start: 0.25rem solid var(--accent-dark);
-		color: var(--gray-0);
-	}
+  .case-study-content :global(a) {
+    color: var(--colour-accent);
+    font-weight: 650;
+    text-underline-offset: 0.18em;
+  }
 
-	.back-link,
-	.content :global(a) {
-		text-decoration: 1px solid underline transparent;
-		text-underline-offset: 0.25em;
-		transition: text-decoration-color var(--theme-transition);
-	}
+  .case-study-content :global(blockquote) {
+    margin: var(--space-8) 0;
+    padding-left: var(--space-6);
+    border-left: 0.25rem solid var(--colour-accent);
+    color: var(--colour-muted);
+    font-size: 1.125rem;
+  }
 
-	.back-link:hover,
-	.back-link:focus,
-	.content :global(a:hover),
-	.content :global(a:focus) {
-		text-decoration-color: currentColor;
-	}
+  .case-study-content :global(img) {
+    width: 100%;
+    height: auto;
+    margin-block: var(--space-8);
+    border: 1px solid var(--colour-border);
+  }
 
-	@media (min-width: 50em) {
-		.back-link {
-			display: block;
-			align-self: flex-start;
-		}
+  @media (max-width: 42rem) {
+    .case-study {
+      padding-block: var(--space-12);
+    }
+  }
+  .case-study-content :global(table) {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  margin-block: var(--space-8);
+  border-collapse: collapse;
+  border: 1px solid var(--colour-border);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
 
-		.details {
-			flex-direction: row;
-			gap: 2.5rem;
-		}
+.case-study-content :global(th),
+.case-study-content :global(td) {
+  min-width: 11rem;
+  padding: 0.85rem;
+  border: 1px solid var(--colour-border);
+  text-align: left;
+  vertical-align: top;
+}
 
-		.content :global(blockquote) {
-			font-size: var(--text-2xl);
-		}
-	}
+.case-study-content :global(th) {
+  background: var(--colour-accent-soft);
+  color: var(--colour-ink);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.case-study-content :global(tbody tr:nth-child(even)) {
+  background: var(--colour-surface);
+}
 </style>

@@ -1,0 +1,131 @@
+---
+import Pill from './Pill.astro';
+
+interface Props {
+  title: string;
+  summary: string;
+  role: string;
+  sector: string;
+  outcome: string;
+  href: string;
+  tags: string[];
+}
+
+const { title, summary, role, sector, outcome, href, tags } = Astro.props;
+---
+
+<article class="project-card">
+  <p class="eyebrow">{sector}</p>
+  <h2><a href={href}>{title}</a></h2>
+  <p>{summary}</p>
+
+  <dl>
+    <div>
+      <dt>Role</dt>
+      <dd>{role}</dd>
+    </div>
+    <div>
+      <dt>Outcome</dt>
+      <dd>{outcome}</dd>
+    </div>
+  </dl>
+
+  <ul aria-label="Project disciplines">
+    {tags.map((tag) => (
+      <li>
+        <Pill>{tag}</Pill>
+      </li>
+    ))}
+  </ul>
+
+  <a class="read-link" href={href}>
+    Read case study <span aria-hidden="true">→</span>
+  </a>
+</article>
+
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-6);
+    border: 1px solid var(--colour-border);
+    background: var(--colour-paper);
+  }
+
+  h2 {
+    margin: var(--space-2) 0 var(--space-4);
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  h2 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  h2 a:hover,
+  h2 a:focus-visible,
+  .read-link:hover,
+  .read-link:focus-visible {
+    color: var(--colour-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .project-card > p:not(.eyebrow) {
+    margin: 0;
+    color: var(--colour-muted);
+    line-height: 1.6;
+  }
+
+  dl {
+    display: grid;
+    gap: var(--space-3);
+    margin: var(--space-6) 0;
+  }
+
+  dl div {
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--colour-border);
+  }
+
+  dt {
+    margin-bottom: var(--space-1);
+    color: var(--colour-muted);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 650;
+    line-height: 1.45;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0 0 var(--space-6);
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: contents;
+  }
+
+  li :global(.pill) {
+    font-size: 0.8rem;
+  }
+
+  .read-link {
+    width: fit-content;
+    margin-top: auto;
+    color: var(--colour-accent);
+    font-weight: 750;
+    text-decoration: none;
+  }
+</style>

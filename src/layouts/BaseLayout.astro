@@ -3,9 +3,9 @@
 // https://docs.astro.build/en/basics/layouts/
 
 import Footer from '../components/Footer.astro';
-// Component Imports
 import MainHead from '../components/MainHead.astro';
 import Nav from '../components/Nav.astro';
+import { withBase } from '../lib/withBase';
 
 interface Props {
 	title?: string | undefined;
@@ -13,6 +13,27 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+const bg = {
+	mainLight800: `url('${withBase('/assets/backgrounds/bg-main-light-800w.jpg')}')`,
+	mainLightCurves: `url('${withBase('/assets/backgrounds/bg-main-light.svg')}')`,
+	mainDark800: `url('${withBase('/assets/backgrounds/bg-main-dark-800w.jpg')}')`,
+	mainDarkCurves: `url('${withBase('/assets/backgrounds/bg-main-dark.svg')}')`,
+	subtle1Light800: `url('${withBase('/assets/backgrounds/bg-subtle-1-light-800w.jpg')}')`,
+	subtle2Light800: `url('${withBase('/assets/backgrounds/bg-subtle-2-light-800w.jpg')}')`,
+	footerLight800: `url('${withBase('/assets/backgrounds/bg-footer-light-800w.jpg')}')`,
+	subtle1Dark800: `url('${withBase('/assets/backgrounds/bg-subtle-1-dark-800w.jpg')}')`,
+	subtle2Dark800: `url('${withBase('/assets/backgrounds/bg-subtle-2-dark-800w.jpg')}')`,
+	footerDark800: `url('${withBase('/assets/backgrounds/bg-footer-dark-800w.jpg')}')`,
+	mainLight1440: `url('${withBase('/assets/backgrounds/bg-main-light-1440w.jpg')}')`,
+	mainDark1440: `url('${withBase('/assets/backgrounds/bg-main-dark-1440w.jpg')}')`,
+	subtle1Light1440: `url('${withBase('/assets/backgrounds/bg-subtle-1-light-1440w.jpg')}')`,
+	subtle2Light1440: `url('${withBase('/assets/backgrounds/bg-subtle-2-light-1440w.jpg')}')`,
+	footerLight1440: `url('${withBase('/assets/backgrounds/bg-footer-light-1440w.jpg')}')`,
+	subtle1Dark1440: `url('${withBase('/assets/backgrounds/bg-subtle-1-dark-1440w.jpg')}')`,
+	subtle2Dark1440: `url('${withBase('/assets/backgrounds/bg-subtle-2-dark-1440w.jpg')}')`,
+	footerDark1440: `url('${withBase('/assets/backgrounds/bg-footer-dark-1440w.jpg')}')`,
+	noise: `url('${withBase('/assets/backgrounds/noise.png')}')`,
+};
 ---
 
 <html lang="en">
@@ -31,11 +52,11 @@ const { title, description } = Astro.props;
 			addEventListener('load', () => document.documentElement.classList.add('loaded'));
 		</script>
 
-		<style>
+		<style define:vars={bg}>
 			:root {
 				--_placeholder-bg: linear-gradient(transparent, transparent);
-				--bg-image-main: url('/assets/backgrounds/bg-main-light-800w.jpg');
-				--bg-image-main-curves: url('/assets/backgrounds/bg-main-light.svg');
+				--bg-image-main: var(--mainLight800);
+				--bg-image-main-curves: var(--mainLightCurves);
 				--bg-image-subtle-1: var(--_placeholder-bg);
 				--bg-image-subtle-2: var(--_placeholder-bg);
 				--bg-image-footer: var(--_placeholder-bg);
@@ -48,8 +69,8 @@ const { title, description } = Astro.props;
 			}
 
 			:root.theme-dark {
-				--bg-image-main: url('/assets/backgrounds/bg-main-dark-800w.jpg');
-				--bg-image-main-curves: url('/assets/backgrounds/bg-main-dark.svg');
+				--bg-image-main: var(--mainDark800);
+				--bg-image-main-curves: var(--mainDarkCurves);
 				--bg-svg-blend-mode: darken;
 				--bg-blend-mode: lighten;
 			}
@@ -57,34 +78,34 @@ const { title, description } = Astro.props;
 			/* These backgrounds are displayed below the fold, so we lazy load them
 			   once the `.loaded` class has been set.  */
 			:root.loaded {
-				--bg-image-subtle-1: url('/assets/backgrounds/bg-subtle-1-light-800w.jpg');
-				--bg-image-subtle-2: url('/assets/backgrounds/bg-subtle-2-light-800w.jpg');
-				--bg-image-footer: url('/assets/backgrounds/bg-footer-light-800w.jpg');
+				--bg-image-subtle-1: var(--subtle1Light800);
+				--bg-image-subtle-2: var(--subtle2Light800);
+				--bg-image-footer: var(--footerLight800);
 			}
 			:root.loaded.theme-dark {
-				--bg-image-subtle-1: url('/assets/backgrounds/bg-subtle-1-dark-800w.jpg');
-				--bg-image-subtle-2: url('/assets/backgrounds/bg-subtle-2-dark-800w.jpg');
-				--bg-image-footer: url('/assets/backgrounds/bg-footer-dark-800w.jpg');
+				--bg-image-subtle-1: var(--subtle1Dark800);
+				--bg-image-subtle-2: var(--subtle2Dark800);
+				--bg-image-footer: var(--footerDark800);
 			}
 
 			@media (min-width: 50em) {
 				:root {
 					--bg-scale: 1;
-					--bg-image-main: url('/assets/backgrounds/bg-main-light-1440w.jpg');
+					--bg-image-main: var(--mainLight1440);
 				}
 				:root.theme-dark {
-					--bg-image-main: url('/assets/backgrounds/bg-main-dark-1440w.jpg');
+					--bg-image-main: var(--mainDark1440);
 				}
 
 				:root.loaded {
-					--bg-image-subtle-1: url('/assets/backgrounds/bg-subtle-1-light-1440w.jpg');
-					--bg-image-subtle-2: url('/assets/backgrounds/bg-subtle-2-light-1440w.jpg');
-					--bg-image-footer: url('/assets/backgrounds/bg-footer-light-1440w.jpg');
+					--bg-image-subtle-1: var(--subtle1Light1440);
+					--bg-image-subtle-2: var(--subtle2Light1440);
+					--bg-image-footer: var(--footerLight1440);
 				}
 				:root.loaded.theme-dark {
-					--bg-image-subtle-1: url('/assets/backgrounds/bg-subtle-1-dark-1440w.jpg');
-					--bg-image-subtle-2: url('/assets/backgrounds/bg-subtle-2-dark-1440w.jpg');
-					--bg-image-footer: url('/assets/backgrounds/bg-footer-dark-1440w.jpg');
+					--bg-image-subtle-1: var(--subtle1Dark1440);
+					--bg-image-subtle-2: var(--subtle2Dark1440);
+					--bg-image-footer: var(--footerDark1440);
 				}
 			}
 
@@ -93,10 +114,10 @@ const { title, description } = Astro.props;
 				isolation: isolate;
 				background:
 					/*noise*/
-					url('/assets/backgrounds/noise.png') top center/220px repeat,
-					/*footer*/ var(--bg-image-footer) bottom center/var(--bg-gradient-size) no-repeat,
-					/*header1*/ var(--bg-image-main-curves) top center/var(--bg-gradient-size) no-repeat,
-					/*header2*/ var(--bg-image-main) top center/var(--bg-gradient-size) no-repeat,
+					var(--noise) top center / 220px repeat,
+					/*footer*/ var(--bg-image-footer) bottom center / var(--bg-gradient-size) no-repeat,
+					/*header1*/ var(--bg-image-main-curves) top center / var(--bg-gradient-size) no-repeat,
+					/*header2*/ var(--bg-image-main) top center / var(--bg-gradient-size) no-repeat,
 					/*base*/ var(--gray-999);
 				background-blend-mode: /*noise*/
 					overlay,

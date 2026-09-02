@@ -1,249 +1,430 @@
 ---
-import { getCollection } from 'astro:content';
-// Component Imports
-import CallToAction from '../components/CallToAction.astro';
-// Page section components
-import ContactCTA from '../components/ContactCTA.astro';
-import Grid from '../components/Grid.astro';
-import Hero from '../components/Hero.astro';
-import Icon from '../components/Icon.astro';
-import Pill from '../components/Pill.astro';
-import PortfolioPreview from '../components/PortfolioPreview.astro';
-import Skills from '../components/Skills.astro';
-// Layout import — provides basic page elements: <head>, <nav>, <footer> etc.
-import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from "astro:content";
+import Layout from "../layouts/BaseLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import ContactCTA from "../components/ContactCTA.astro";
 
-// Content Fetching: List four most recent work projects
-const projects = (await getCollection('work'))
-	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
-	.slice(0, 4);
+const base = import.meta.env.BASE_URL;
 
-// Full Astro Component Syntax:
-// https://docs.astro.build/basics/astro-components/
+const featuredWork = (await getCollection("work"))
+  .filter((entry) => entry.data.featured && !entry.data.draft)
+  .sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout>
-	<div class="stack gap-20 lg:gap-48">
-		<div class="wrapper stack gap-8 lg:gap-20">
-			<header class="hero">
-				<Hero
-					title="Hello, my name is Jeanine White"
-					tagline="I am a Creative Developer who is currently based in Portland, Oregon."
-					align="start"
-				>
-					<div class="roles">
-						<Pill><Icon icon="code" size="1.33em" /> Developer</Pill>
-						<Pill><Icon icon="microphone-stage" size="1.33em" /> Speaker</Pill>
-						<Pill><Icon icon="pencil-line" size="1.33em" /> Writer</Pill>
-					</div>
-				</Hero>
+<Layout
+  title="Your Name — Product, Transformation & AI"
+  description="Portfolio of product strategy, transformation, process design and AI workflow work."
+>
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <p class="eyebrow">Product · Transformation · AI</p>
 
-				<img
-					alt="Jeanine White smiling in a red plaid shirt and tortoise shell glasses"
-					width="480"
-					height="620"
-					src="/assets/portrait.jpg"
-				/>
-			</header>
+          <h1>
+            Turning complex operational and customer problems into practical
+            product and transformation outcomes.
+          </h1>
 
-			<Skills />
-		</div>
+          <p class="hero-intro">
+            I work with teams navigating ambiguity across customer experience,
+            operations and technology. My approach brings together the people
+            affected by change, the realities of how work gets done, and a
+            credible path from decision to delivery.
+          </p>
 
-		<main class="wrapper stack gap-20 lg:gap-48">
-			<section class="section with-background with-cta">
-				<header class="section-header stack gap-2 lg:gap-4">
-					<h3>Selected Work</h3>
-					<p>Take a look below at some of my featured work for clients from the past few years.</p>
-				</header>
+          <div class="hero-actions">
+            <a class="button button-primary" href={`${base}work/`}>
+              View selected work
+            </a>
 
-				<div class="gallery">
-					<Grid variant="offset">
-						{
-							projects.map((project) => (
-								<li>
-									<PortfolioPreview project={project} />
-								</li>
-							))
-						}
-					</Grid>
-				</div>
+            <a class="button button-secondary" href={`${base}about/`}>
+              About my approach
+            </a>
+          </div>
+        </div>
 
-				<div class="cta">
-					<CallToAction href="/work/">
-						View All
-						<Icon icon="arrow-right" size="1.2em" />
-					</CallToAction>
-				</div>
-			</section>
+        <aside class="hero-proof" aria-label="Core capabilities">
+          <p class="eyebrow">What I do</p>
 
-			<section class="section with-background bg-variant">
-				<header class="section-header stack gap-2 lg:gap-4">
-					<h3>Mentions</h3>
-					<p>
-						I have been fortunate enough to receive praise for my work in several publications. Take
-						a look below to learn more.
-					</p>
-				</header>
+          <ul>
+            <li>Product strategy and discovery</li>
+            <li>Transformation and operating model design</li>
+            <li>Service and process improvement</li>
+            <li>Stakeholder alignment and delivery planning</li>
+            <li>Practical AI workflow design</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
 
-				<div class="gallery">
-					<Grid variant="small">
-						{
-							['Medium', 'BuzzFeed', 'The Next Web', 'awwwards.', 'TechCrunch'].map((brand) => (
-								<li class="mention-card">
-									<p>{brand}</p>
-								</li>
-							))
-						}
-					</Grid>
-				</div>
-			</section>
-		</main>
+    <section class="section">
+      <div class="container">
+        <SectionHeading
+          eyebrow="Selected work"
+          title="Work that makes the path forward clearer."
+          intro="A selection of product, transformation and AI engagements. Each case study focuses on the problem, the decisions that mattered, the approach taken and the outcome."
+        />
 
-		<ContactCTA />
-	</div>
-</BaseLayout>
+        {
+          featuredWork.length > 0 ? (
+            <div class="work-grid">
+              {featuredWork.map((entry) => (
+                <ProjectCard
+                  title={entry.data.title}
+                  summary={entry.data.summary}
+                  role={entry.data.role}
+                  sector={entry.data.sector}
+                  outcome={entry.data.outcome}
+                  tags={entry.data.tags}
+                  href={`${base}work/${entry.id}/`}
+                />
+              ))}
+            </div>
+          ) : (
+            <div class="work-placeholder">
+              <p>
+                Selected case studies are currently being prepared. Please
+                return soon to see enterprise product, transformation and AI
+                workflow work.
+              </p>
+              <a href={`${base}work/`}>View all work</a>
+            </div>
+          )
+        }
+
+        {
+          featuredWork.length > 0 && (
+            <p class="section-link">
+              <a href={`${base}work/`}>
+                Explore all case studies <span aria-hidden="true">→</span>
+              </a>
+            </p>
+          )
+        }
+      </div>
+    </section>
+
+    <section class="capabilities-section">
+      <div class="container">
+        <SectionHeading
+          eyebrow="How I work"
+          title="Make the right problem visible before committing to the solution."
+          intro="Complex change rarely fails because teams lack ideas. It fails when the problem is unclear, decisions are fragmented, or the delivery path does not reflect operational reality."
+        />
+
+        <div class="capability-grid">
+          <article>
+            <p class="capability-number">01</p>
+            <h3>Clarify the system</h3>
+            <p>
+              Build a shared view of the customer, operating and technology
+              context through research, service mapping, process analysis and
+              evidence-led framing.
+            </p>
+          </article>
+
+          <article>
+            <p class="capability-number">02</p>
+            <h3>Align the decisions</h3>
+            <p>
+              Help cross-functional stakeholders surface trade-offs, prioritise
+              what matters and move from competing assumptions to a practical
+              direction.
+            </p>
+          </article>
+
+          <article>
+            <p class="capability-number">03</p>
+            <h3>Design for delivery</h3>
+            <p>
+              Translate the target state into a credible roadmap, operating
+              model, product direction or workflow that teams can implement and
+              improve.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="evidence-section">
+      <div class="container evidence-grid">
+        <div>
+          <p class="eyebrow">Experience</p>
+          <h2>Comfortable in complex enterprise environments.</h2>
+        </div>
+
+        <div class="evidence-copy">
+          <p>
+            My work spans telecommunications, customer and channel operations,
+            enterprise systems, sales enablement, data-informed decision-making
+            and process transformation.
+          </p>
+
+          <p>
+            I am most effective where teams need to connect strategic intent
+            with the detail required to make change real: customer needs,
+            workflows, technology dependencies, governance and delivery
+            priorities.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <ContactCTA
+      title="Have a complex product or transformation challenge?"
+      intro="I’m open to product, transformation, customer-experience and AI workflow opportunities where clearer thinking, aligned teams and practical delivery matter."
+      email="your-email@example.com"
+      linkedinUrl="https://www.linkedin.com/in/your-linkedin-profile/"
+    />
+  </main>
+</Layout>
 
 <style>
-	.hero {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 2rem;
-	}
+  .hero {
+    padding-block: calc(var(--space-16) + 24px);
+    background: var(--colour-surface);
+    border-bottom: 1px solid var(--colour-border);
+  }
 
-	.roles {
-		display: none;
-	}
+  .section,
+  .capabilities-section,
+  .evidence-section {
+    padding-block: calc(var(--space-16) + 24px);
+  }
 
-	.hero img {
-		aspect-ratio: 5 / 4;
-		object-fit: cover;
-		object-position: top;
-		border-radius: 1.5rem;
-		box-shadow: var(--shadow-md);
-	}
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(17rem, 0.65fr);
+    align-items: end;
+    gap: var(--space-12);
+  }
 
-	@media (min-width: 50em) {
-		.hero {
-			display: grid;
-			grid-template-columns: 6fr 4fr;
-			padding-inline: 2.5rem;
-			gap: 3.75rem;
-		}
+  h1 {
+    max-width: 15ch;
+    margin: var(--space-3) 0 var(--space-6);
+    font-size: clamp(2.8rem, 6.5vw, 5.6rem);
+    line-height: 1.02;
+    letter-spacing: -0.055em;
+  }
 
-		.roles {
-			margin-top: 0.5rem;
-			display: flex;
-			gap: 0.5rem;
-		}
+  .hero-intro {
+    max-width: 43rem;
+    margin: 0;
+    color: var(--colour-muted);
+    font-size: clamp(1.125rem, 2vw, 1.35rem);
+    line-height: 1.65;
+  }
 
-		.hero img {
-			aspect-ratio: 3 / 4;
-			border-radius: 4.5rem;
-			object-fit: cover;
-		}
-	}
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+  }
 
-	/* ====================================================== */
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.85rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-weight: 750;
+    text-decoration: none;
+  }
 
-	.section {
-		display: grid;
-		gap: 2rem;
-	}
+  .button-primary {
+    background: var(--colour-accent);
+    color: var(--colour-paper);
+  }
 
-	.with-background {
-		position: relative;
-	}
+  .button-primary:hover,
+  .button-primary:focus-visible {
+    background: var(--colour-accent-strong);
+  }
 
-	.with-background::before {
-		--hero-bg: var(--bg-image-subtle-2);
+  .button-secondary {
+    border-color: var(--colour-border);
+    color: var(--colour-ink);
+    background: var(--colour-paper);
+  }
 
-		content: '';
-		position: absolute;
-		pointer-events: none;
-		left: 50%;
-		width: 100vw;
-		aspect-ratio: calc(2.25 / var(--bg-scale));
-		top: 0;
-		transform: translateY(-75%) translateX(-50%);
-		background:
-			url('/assets/backgrounds/noise.png') top center/220px repeat,
-			var(--hero-bg) center center / var(--bg-gradient-size) no-repeat,
-			var(--gray-999);
-		background-blend-mode: overlay, normal, normal, normal;
-		mix-blend-mode: var(--bg-blend-mode);
-		z-index: -1;
-	}
+  .button-secondary:hover,
+  .button-secondary:focus-visible {
+    border-color: var(--colour-accent);
+    color: var(--colour-accent);
+  }
 
-	.with-background.bg-variant::before {
-		--hero-bg: var(--bg-image-subtle-1);
-	}
+  .hero-proof {
+    padding: var(--space-6);
+    border: 1px solid var(--colour-border);
+    background: var(--colour-paper);
+  }
 
-	.section-header {
-		justify-self: center;
-		text-align: center;
-		max-width: 50ch;
-		font-size: var(--text-md);
-		color: var(--gray-300);
-	}
+  .hero-proof ul {
+    display: grid;
+    gap: var(--space-3);
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    list-style: none;
+  }
 
-	.section-header h3 {
-		font-size: var(--text-2xl);
-	}
+  .hero-proof li {
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--colour-border);
+    font-weight: 650;
+    line-height: 1.4;
+  }
 
-	@media (min-width: 50em) {
-		.section {
-			grid-template-columns: repeat(4, 1fr);
-			grid-template-areas: 'header header header header' 'gallery gallery gallery gallery';
-			gap: 5rem;
-		}
+  .hero-proof li:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
 
-		.section.with-cta {
-			grid-template-areas: 'header header header cta' 'gallery gallery gallery gallery';
-		}
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
 
-		.section-header {
-			grid-area: header;
-			font-size: var(--text-lg);
-		}
+  .work-placeholder {
+    max-width: 42rem;
+    padding: var(--space-6);
+    border: 1px solid var(--colour-border);
+    background: var(--colour-surface);
+  }
 
-		.section-header h3 {
-			font-size: var(--text-4xl);
-		}
+  .work-placeholder p {
+    margin-top: 0;
+    color: var(--colour-muted);
+  }
 
-		.with-cta .section-header {
-			justify-self: flex-start;
-			text-align: left;
-		}
+  .work-placeholder a,
+  .section-link a {
+    color: var(--colour-accent);
+    font-weight: 750;
+    text-decoration: none;
+  }
 
-		.gallery {
-			grid-area: gallery;
-		}
+  .section-link {
+    margin: var(--space-8) 0 0;
+  }
 
-		.cta {
-			grid-area: cta;
-		}
-	}
+  .section-link a:hover,
+  .section-link a:focus-visible,
+  .work-placeholder a:hover,
+  .work-placeholder a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
 
-	/* ====================================================== */
+  .capabilities-section {
+    background: transparent;
+    color: var(--gray-0);
+  }
 
-	.mention-card {
-		display: flex;
-		height: 7rem;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
-		border: 1px solid var(--gray-800);
-		border-radius: 1.5rem;
-		color: var(--gray-300);
-		background: var(--gradient-subtle);
-		box-shadow: var(--shadow-sm);
-	}
+  .capabilities-section :global(.eyebrow) {
+    color: var(--gray-300);
+  }
 
-	@media (min-width: 50em) {
-		.mention-card {
-			border-radius: 1.5rem;
-			height: 9.5rem;
-		}
-	}
+  .capabilities-section :global(h2) {
+    color: var(--gray-0);
+  }
+
+  .capabilities-section :global(.intro) {
+    color: var(--gray-200);
+  }
+
+  .capability-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+    margin-top: var(--space-12);
+  }
+
+  .capability-grid article {
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--gray-700);
+  }
+
+  .capability-number {
+    margin: 0;
+    color: var(--gray-300);
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+  }
+
+  .capability-grid h3 {
+    margin: var(--space-4) 0 var(--space-3);
+    font-size: 1.4rem;
+    line-height: 1.25;
+    color: var(--gray-0);
+  }
+
+  .capability-grid article > p:last-child {
+    margin: 0;
+    color: var(--gray-200);
+    line-height: 1.65;
+  }
+
+  .evidence-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--space-12);
+  }
+
+  .evidence-grid h2 {
+    max-width: 15ch;
+    margin: var(--space-3) 0 0;
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+  }
+
+  .evidence-copy {
+    color: var(--colour-muted);
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+
+  .evidence-copy p {
+    margin: 0 0 var(--space-5);
+  }
+
+  .evidence-copy p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 58rem) {
+    .hero-grid,
+    .evidence-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-proof {
+      max-width: 42rem;
+    }
+
+    .work-grid,
+    .capability-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .hero,
+    .section,
+    .capabilities-section,
+    .evidence-section {
+      padding-block: calc(var(--space-12) + 24px);
+    }
+
+    h1 {
+      max-width: 17ch;
+    }
+  }
 </style>

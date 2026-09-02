@@ -1,75 +1,115 @@
 ---
-import Icon from './Icon.astro';
+const base = import.meta.env.BASE_URL;
+const year = new Date().getFullYear();
 
-const currentYear = new Date().getFullYear();
+const email = "chat2roz@outlook.com";
+const linkedinUrl = "https://www.linkedin.com/in/roslynlau";
 ---
 
-<footer>
-	<div class="group">
-		<p>
-			Designed & Developed in Portland with <a href="https://astro.build/">Astro</a>
-			<Icon icon="rocket-launch" size="1.2em" />
-		</p>
-		<p>&copy; {currentYear} Jeanine White</p>
-	</div>
-	<p class="socials">
-		<a href="https://twitter.com/me"> Twitter</a>
-		<a href="https://github.com/me"> GitHub</a>
-		<a href="https://codepen.io/me"> CodePen</a>
-	</p>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <p class="footer-name">Roslyn Lau</p>
+      <p class="footer-positioning">
+        Product, transformation and AI work for complex organisations.
+      </p>
+      <p class="footer-location">Melbourne, Australia</p>
+    </div>
+
+    <div>
+      <p class="footer-heading">Explore</p>
+      <nav aria-label="Footer navigation">
+        <a href={base}>Home</a>
+        <a href={`${base}work/`}>Work</a>
+        <a href={`${base}about/`}>About</a>
+        
+      </nav>
+    </div>
+
+    <div>
+      <p class="footer-heading">Connect</p>
+      <a href={`mailto:${email}`}>{email}</a>
+      <a href={linkedinUrl} target="_blank" rel="noopener noreferrer">
+        LinkedIn
+      </a>
+    </div>
+  </div>
+
+  <div class="container footer-meta">
+    <p>© {year} Roslyn Lau. All rights reserved.</p>
+    <p>Case studies are presented in NDA compliant form.</p>
+  </div>
 </footer>
+
 <style>
-	footer {
-		display: flex;
-		flex-direction: column;
-		gap: 3rem;
-		margin-top: auto;
-		padding: 3rem 2rem 3rem;
-		text-align: center;
-		color: var(--gray-400);
-		font-size: var(--text-sm);
-	}
+  .site-footer {
+    padding-top: var(--space-12);
+    background: var(--colour-surface);
+    border-top: 1px solid var(--colour-border);
+  }
 
-	footer a {
-		color: var(--gray-400);
-		text-decoration: 1px solid underline transparent;
-		text-underline-offset: 0.25em;
-		transition: text-decoration-color var(--theme-transition);
-	}
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--space-8);
+    padding-bottom: var(--space-8);
+  }
 
-	footer a:hover,
-	footer a:focus {
-		text-decoration-color: currentColor;
-	}
+  .footer-name,
+  .footer-heading {
+    margin: 0 0 var(--space-3);
+    font-weight: 800;
+  }
 
-	.group {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
+  .footer-positioning,
+  .footer-location {
+    max-width: 26rem;
+    margin: 0 0 var(--space-2);
+    color: var(--colour-muted);
+  }
 
-	.socials {
-		display: flex;
-		justify-content: center;
-		gap: 1rem;
-		flex-wrap: wrap;
-	}
+  nav,
+  .footer-grid > div:last-child {
+    display: grid;
+    gap: var(--space-2);
+  }
 
-	@media (min-width: 50em) {
-		footer {
-			flex-direction: row;
-			justify-content: space-between;
-			padding: 2.5rem 5rem;
-		}
+  a {
+    width: fit-content;
+    color: var(--colour-muted);
+    text-decoration: none;
+  }
 
-		.group {
-			flex-direction: row;
-			gap: 1rem;
-			flex-wrap: wrap;
-		}
+  a:hover,
+  a:focus-visible {
+    color: var(--colour-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
 
-		.socials {
-			justify-content: flex-end;
-		}
-	}
+  .footer-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-block: var(--space-4);
+    border-top: 1px solid var(--colour-border);
+    color: var(--colour-muted);
+    font-size: 0.85rem;
+  }
+
+  .footer-meta p {
+    margin: 0;
+  }
+
+  @media (max-width: 42rem) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    .footer-meta {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
 </style>
