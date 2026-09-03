@@ -202,7 +202,7 @@ h5 {
 	font-size: var(--text-xl);
 }
 /* Image styles for case studies */
-.case-study-content :global(img) {
+.case-study-content img {
 	display: block;
 	width: 100%;
 	height: auto;
@@ -210,16 +210,16 @@ h5 {
 	border: 1px solid var(--colour-border);
 	border-radius: var(--radius-md);
 	background: var(--colour-surface);
-  }
-  
-  .case-study-content :global(img + em) {
+}
+
+.case-study-content img + em {
 	display: block;
 	margin-top: calc(var(--space-8) * -0.55);
 	margin-bottom: var(--space-8);
 	color: var(--colour-muted);
 	font-size: 0.9rem;
 	line-height: 1.5;
-  }
+}
 /* Utilities */
 
 .sr-only {
