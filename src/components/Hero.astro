@@ -9,7 +9,7 @@ const { align = 'center', tagline, title } = Astro.props;
 ---
 
 <div class:list={['hero stack gap-4', align]}>
-	<div class="stack gap-2">
+	<div class="hero-heading stack gap-2">
 		<h1 class="title">{title}</h1>
 		{tagline && <p class="tagline">{tagline}</p>}
 	</div>
@@ -20,6 +20,10 @@ const { align = 'center', tagline, title } = Astro.props;
 	.hero {
 		font-size: var(--text-lg);
 		text-align: center;
+	}
+
+	.hero-heading {
+		padding-bottom: 24px;
 	}
 
 	.title,
@@ -33,18 +37,18 @@ const { align = 'center', tagline, title } = Astro.props;
 		color: var(--gray-0);
 	}
 
+	.start {
+		text-align: start;
+	}
+
+	.start .title,
+	.start .tagline {
+		margin-inline: unset;
+	}
+
 	@media (min-width: 50em) {
 		.hero {
 			font-size: var(--text-xl);
-		}
-
-		.start {
-			text-align: start;
-		}
-
-		.start .title,
-		.start .tagline {
-			margin-inline: unset;
 		}
 
 		.title {
